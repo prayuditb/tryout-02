@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -8,6 +8,13 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {items: [], text: ''};
+    this.axios = new Axios.create({
+      baseURL: 'http://localhost:4000',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+      method: 'GET',
+    })
   }
 
   render() {
@@ -33,6 +40,10 @@ class App extends Component {
       text: this.state.text,
       id: Date.now()
     };
+    
+    this.axios(`/graphql?query={ todo( item: "${this.state.text}" ) }`)
+    .then(res => console.log('response from graphql', res));
+
     this.setState((prevState) => ({
       items: prevState.items.concat(newItem),
       text: ''
