@@ -32,29 +32,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class STTmodule extends AppCompatActivity {
 
     private TextView voiceInput;
     private TextView speakButton;
     private final int REQ_CODE_SPEECH_INPUT = 100;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        voiceInput = (TextView) findViewById(R.id.voiceInput);
-        speakButton = (TextView) findViewById(R.id.btnSpeak);
-
-        speakButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                askSpeechInput();
-            }
-        });
-
-    }
 
     // Showing google speech input dialog
 
