@@ -9,7 +9,7 @@ var todos = [];
 
 var schema = buildSchema(`
   type Query {
-    todo (input: String) : String
+    todo (item: String) : String
   }
 `);
 
@@ -20,10 +20,6 @@ var root = {
         return todos;
     } 
 }
-
-app.get('/', function (req, res) {
-  res.send('Hello this is GraphQL server!')
-});
 
 app.use('/graphql',cors(), graphqlHTTP({
   schema: schema,
