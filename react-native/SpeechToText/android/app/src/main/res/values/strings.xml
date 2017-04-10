@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SpeechToText</string>
+    <string name="SPEECH_NOT_SUPPORT">Sorry! Your device doesn\'t support speech input</string>
 </resources>
