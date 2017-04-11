@@ -9,22 +9,42 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  NativeModules,
+  TouchableOpacity,
 } from 'react-native';
+const STTmodule = NativeModules.SpeechToText;  
+
 
 export default class SpeechToText extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      text: 'initial text'
+    }
+  }
+  speechtotex(){
+    STTmodule.start()
+    .then(resp =>{
+      console.log('hello', resp);
+      this.setState({ text: resp });
+    })
+    .catch(err => console.llog('err', err))
+  }
+  
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
+        <TouchableOpacity onPress={() => this.speechtotex()}>
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          Tap here to start Speech To Text
         </Text>
+        </TouchableOpacity>
         <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
+          {this.state.text}
         </Text>
       </View>
     );

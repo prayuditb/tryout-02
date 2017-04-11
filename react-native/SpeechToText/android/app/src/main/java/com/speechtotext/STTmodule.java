@@ -22,7 +22,6 @@ public class STTmodule extends ReactContextBaseJavaModule implements ActivityEve
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private ReactApplicationContext mReactContext;
     private Promise mPromise;
-    private Activity mCurrentActivity;
 
     public STTmodule (ReactApplicationContext reactContext){
         super(reactContext);
@@ -42,7 +41,7 @@ public class STTmodule extends ReactContextBaseJavaModule implements ActivityEve
     }
 
     private void openSpeechToText(){
-         mCurrentActivity = getCurrentActivity();
+         Activity mCurrentActivity = getCurrentActivity();
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -52,16 +51,23 @@ public class STTmodule extends ReactContextBaseJavaModule implements ActivityEve
         {
             Toast.makeText(mReactContext, R.string.SPEECH_NOT_SUPPORT,
                     Toast.LENGTH_SHORT).show();
-            mPromise.reject("100", "Sorry! Your device doesn\\'t support speech input");
         }
     }
 
 
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-        ArrayList<String> result = data
-                .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-        mPromise.resolve(result.get(0));
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    mPromise.resolve(result.get(0));
+                }
+                break;
+            }
+        }
     }
 
     @Override
